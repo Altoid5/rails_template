@@ -1,0 +1,13 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  user: one
+  found_item: one
+  proof_provided: false
+  status: MyString
+
+two:
+  user: two
+  found_item: two
+  proof_provided: false
+  status: MyString

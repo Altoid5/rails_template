@@ -1,0 +1,19 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  name: MyString
+  description: MyText
+  location: MyString
+  category: MyString
+  user: one
+  claimed: false
+  reported: false
+
+two:
+  name: MyString
+  description: MyText
+  location: MyString
+  category: MyString
+  user: two
+  claimed: false
+  reported: false
