@@ -7,3 +7,14 @@
 #   ["Action", "Comedy", "Drama", "Horror"].each do |genre_name|
 #     MovieGenre.find_or_create_by!(name: genre_name)
 #   end
+# Create admin user
+User.create(email: "admin@utrgv.edu", password: "adminpass", role: "admin")
+
+# Create regular users
+5.times do |i|
+  User.create(email: "user#{i}@utrgv.edu", password: "password123", role: "user")
+end
+
+# Create lost and found items
+LostItem.create(name: "Laptop", description: "Silver MacBook", location: "Library", category: "Electronics", user: User.first)
+FoundItem.create(name: "Wallet", description: "Brown leather wallet", location: "Cafeteria", category: "Accessories", user: User.last)
