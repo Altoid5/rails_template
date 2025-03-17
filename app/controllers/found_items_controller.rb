@@ -1,0 +1,2 @@
+class FoundItemsController < ApplicationController
+end
