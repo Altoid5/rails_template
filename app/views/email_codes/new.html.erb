@@ -1,0 +1,12 @@
+<h1>Login with UTRGV Email</h1>
+
+<%= form_with url: "/email_login", method: :post, local: true do %>
+  <div>
+    <%= label_tag :email, "UTRGV Email:" %><br>
+    <%= email_field_tag :email, nil, required: true %>
+  </div>
+
+  <div style="margin-top: 1rem;">
+    <%= submit_tag "Send Verification Code" %>
+  </div>
+<% end %>

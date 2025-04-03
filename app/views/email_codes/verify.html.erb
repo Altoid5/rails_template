@@ -1,0 +1,16 @@
+<h1>Enter Your Verification Code</h1>
+
+<p>We sent a verification code to your UTRGV email.</p>
+
+<%= form_with url: "/verify_code", method: :post, local: true do %>
+  <%= hidden_field_tag :email, params[:email] %>
+
+  <div>
+    <%= label_tag :code, "Verification Code:" %><br>
+    <%= text_field_tag :code, nil, required: true %>
+  </div>
+
+  <div style="margin-top: 1rem;">
+    <%= submit_tag "Verify and Login" %>
+  </div>
+<% end %>

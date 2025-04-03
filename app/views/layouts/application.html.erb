@@ -10,11 +10,18 @@
   </head>
 
   <body>
-    <nav>
-      <%= link_to "Home", root_path %> |
-      <%= link_to "Lost Items", lost_items_path %> |
-      <%= link_to "Found Items", found_items_path %>
-    </nav>
+<nav>
+<%= link_to "Home", user_signed_in? ? authenticated_root_path : unauthenticated_root_path %>
+  <%= link_to "Lost Items", lost_items_path %> |
+  <%= link_to "Found Items", found_items_path %> |
+  <%= link_to "Login", email_login_path %>
+</nav>
+
+<% if flash[:notice] %>
+  <p style="color: green;"><%= flash[:notice] %></p>
+<% elsif flash[:alert] %>
+  <p style="color: red;"><%= flash[:alert] %></p>
+<% end %>
 
     <hr>
 

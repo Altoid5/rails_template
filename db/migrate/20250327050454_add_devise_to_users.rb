@@ -2,9 +2,7 @@ class AddDeviseToUsers < ActiveRecord::Migration[8.0]
   def self.up
     change_table :users do |t|
       ## Database authenticatable
-      # These already exist in your users table, so don’t add again:
-      # t.string :email,              null: false, default: ""
-      # t.string :encrypted_password, null: false, default: ""
+      t.string :encrypted_password, null: false, default: ""
 
       ## Recoverable
       t.string   :reset_password_token
@@ -24,22 +22,16 @@ class AddDeviseToUsers < ActiveRecord::Migration[8.0]
       # t.string   :confirmation_token
       # t.datetime :confirmed_at
       # t.datetime :confirmation_sent_at
-      # t.string   :unconfirmed_email # Only if using reconfirmable
+      # t.string   :unconfirmed_email
 
       ## Lockable
-      # t.integer  :failed_attempts, default: 0, null: false # Only if lock strategy is :failed_attempts
-      # t.string   :unlock_token # Only if unlock strategy is :email or :both
+      # t.integer  :failed_attempts, default: 0, null: false
+      # t.string   :unlock_token
       # t.datetime :locked_at
-
-      # t.timestamps null: false
     end
 
-    # Only keep this if your users table didn’t already add this index
-    # remove it if it causes errors
-    # add_index :users, :email,                unique: true
+    # Indexes (uncomment if not already created elsewhere)
     add_index :users, :reset_password_token, unique: true
-    # add_index :users, :confirmation_token,   unique: true
-    # add_index :users, :unlock_token,         unique: true
   end
 
   def self.down
