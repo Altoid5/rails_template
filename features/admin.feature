@@ -3,7 +3,7 @@ Feature: Admin Management
   I want to monitor and manage lost and found posts
   So that I can maintain the integrity of the platform
 
-  Scenario: Admin views reported posts
+    Scenario: Admin views reported posts
     Given I am logged in as an admin
     When I navigate to the admin dashboard
     Then I should see a list of reported posts
@@ -14,7 +14,7 @@ Feature: Admin Management
     When I click the "Ban User" button
     Then the user should no longer be able to log in
 
-  Scenario: Admin restores a mistakenly deleted post
+    Scenario: Admin restores a mistakenly deleted post
     Given I am logged in as an admin
     When I navigate to the deleted posts section
     And I select a post to restore

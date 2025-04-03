@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2024_03_16_120500) do
+ActiveRecord::Schema[8.0].define(version: 2025_03_27_050454) do
   create_table "claims", force: :cascade do |t|
     t.integer "user_id", null: false
     t.integer "found_item_id", null: false
@@ -74,6 +74,10 @@ ActiveRecord::Schema[8.0].define(version: 2024_03_16_120500) do
     t.boolean "deactivated"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "reset_password_token"
+    t.datetime "reset_password_sent_at"
+    t.datetime "remember_created_at"
+    t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
 
   add_foreign_key "claims", "found_items"
