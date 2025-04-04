@@ -16,7 +16,6 @@ Rails.application.routes.draw do
 
   resources :email_codes, only: [:new, :create]
 
-  # 👇 Force login before homepage
   authenticated :user do
     root to: "lost_items#index", as: :authenticated_root
   end

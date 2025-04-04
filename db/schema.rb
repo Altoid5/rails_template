@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_04_03_032639) do
+ActiveRecord::Schema[8.0].define(version: 2025_04_03_171255) do
   create_table "claims", force: :cascade do |t|
     t.integer "user_id", null: false
     t.integer "found_item_id", null: false
@@ -44,6 +44,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_04_03_032639) do
     t.boolean "reported"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.date "lost_date"
     t.index ["user_id"], name: "index_lost_items_on_user_id"
   end
 

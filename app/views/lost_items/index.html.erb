@@ -1,2 +1,17 @@
 <h1>Lost Items</h1>
-<p>This page will show a list of lost items!</p>
+
+<div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 20px;">
+  <% @lost_items.each do |item| %>
+    <div style="border: 1px solid #ccc; padding: 16px; border-radius: 10px; background-color: #f9f9f9;">
+      <h3><%= item.name %></h3>
+      <p><strong>Description:</strong> <%= item.description %></p>
+      <p><strong>Lost on:</strong> <%= item.lost_date.strftime("%B %d, %Y") if item.lost_date %></p>
+      <p><strong>Location:</strong> <%= item.location || "Unknown" %></p>
+
+      <% if user_signed_in? && item.user == current_user %>
+        <%= link_to "Edit", edit_lost_item_path(item), class: "btn" %> |
+        <%= link_to "Delete", item, method: :delete, data: { confirm: "Are you sure?" }, class: "btn" %>
+      <% end %>
+    </div>
+  <% end %>
+</div>

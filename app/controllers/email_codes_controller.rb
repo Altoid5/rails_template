@@ -7,11 +7,13 @@ class EmailCodesController < ApplicationController
   def create
     email = params[:email].to_s.downcase
 
+
+
+    #need to replaces and make it so that only Utrgv can log in 
     if email.present?
       user = User.find_or_create_by(email: email)
       code = SecureRandom.hex(3).upcase
 
-      # ✅ Save code + timestamp
       user.update(
         verification_code: code,
         code_sent_at: Time.current
@@ -33,7 +35,7 @@ class EmailCodesController < ApplicationController
       if @user&.verify_code_matches?(params[:code])
         sign_in(@user)
         flash[:notice] = "Login successful!"
-        redirect_to root_path
+        redirect_to authenticated_root_path
       else
         flash[:alert] = "Invalid or expired verification code."
         render :verify

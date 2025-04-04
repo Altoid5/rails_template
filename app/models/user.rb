@@ -10,6 +10,10 @@ class User < ApplicationRecord
 
   # Only allow UTRGV emails
   validates :email, presence: true, uniqueness: true
+
+
+
+
   # 🔻 Disable UTRGV-only check for testing
   # validate :email_domain_must_be_utrgv
 
@@ -19,6 +23,11 @@ class User < ApplicationRecord
   #   end
   # end
 
+
+
+
+
+  
   # Skip password validation for UTRGV code login
   def password_required?
     false
