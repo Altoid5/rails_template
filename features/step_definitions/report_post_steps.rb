@@ -20,3 +20,4 @@ Given("I am on a found item page") do
   @found_item = FoundItem.create(name: "Wallet", location: "Cafeteria", description: "Brown leather wallet", found_by: "user@utrgv.edu")
   visit found_item_path(@found_item)
 end
+
