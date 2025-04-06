@@ -1,0 +1,77 @@
+<div style="background-color: #4a464d; min-height: 100vh; padding-top: 3rem; font-family: Arial, sans-serif;">
+  <div style="height: 5px; background-color: #f57c00;"></div>
+
+
+  <div style="max-width: 600px; background-color: #f2f2f2; margin: 3rem auto; border-radius: 10px; padding: 2rem 2.5rem; box-shadow: 0 0 20px rgba(0,0,0,0.15);">
+    <h2 style="text-align: center; color: #222; margin-bottom: 1.5rem;">Lost Item Form</h2>
+
+<%= form_with(model: @lost_item, local: true, html: { multipart: true }) do |form| %>
+      <% if @lost_item.errors.any? %>
+        <div id="error_explanation" style="margin-bottom: 1rem; background: #ffebee; padding: 1rem; border-left: 6px solid #ef5350; border-radius: 6px;">
+          <h3 style="color: #c62828;"><%= pluralize(lost_item.errors.count, "error") %> prevented this item from being saved:</h3>
+          <ul>
+            <% lost_item.errors.full_messages.each do |message| %>
+              <li><%= message %></li>
+            <% end %>
+          </ul>
+        </div>
+      <% end %>
+
+      <!-- Form continues... -->
+
+      <script>
+        const buildingCoordinates = {
+          "1. ESWOT - Social Work and Occupational Therapy": [1060, 442],
+          "2. EITTB - International Trade & Technology": [1045, 373],
+          "3. ECOXT - Orville Cox Tennis Center": [970, 405]
+          // Add the rest of your coordinates...
+        };
+
+        function selectBuilding(name) {
+          const dropdown = document.getElementById("lost-item-location-dropdown");
+          const pin = document.getElementById("map-pin");
+
+          if (dropdown) {
+            for (const option of dropdown.options) {
+              if (option.value === name) {
+                dropdown.value = name;
+                break;
+              }
+            }
+          }
+
+          updateMapPin(name);
+        }
+
+        function updateMapPin(name) {
+          const pin = document.getElementById("map-pin");
+          const coords = buildingCoordinates[name];
+          const img = document.getElementById("map-image");
+          if (coords && pin && img) {
+            const [x, y] = coords;
+            const scale = img.clientWidth / 1225.0;
+            pin.style.left = `${x * scale}px`;
+            pin.style.top = `${y * scale}px`;
+            pin.style.display = "block";
+          }
+          document.getElementById("map-location-preview").innerHTML = `<p><strong>Selected Building:</strong> ${name}</p>`;
+        }
+
+        document.addEventListener("DOMContentLoaded", function () {
+          const dropdown = document.getElementById("lost-item-location-dropdown");
+          if (dropdown) {
+            dropdown.addEventListener("change", function () {
+              updateMapPin(dropdown.value);
+            });
+            updateMapPin(dropdown.value);
+          }
+        });
+
+        function toggleProfileMenu() {
+          const menu = document.getElementById("profile-dropdown");
+          menu.style.display = menu.style.display === "block" ? "none" : "block";
+        }
+      </script>
+    <% end %>
+  </div>
+</div>

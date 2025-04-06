@@ -7,9 +7,6 @@ class EmailCodesController < ApplicationController
   def create
     email = params[:email].to_s.downcase
 
-
-
-    #need to replaces and make it so that only Utrgv can log in 
     if email.present?
       user = User.find_or_create_by(email: email)
       code = SecureRandom.hex(3).upcase
@@ -20,7 +17,6 @@ class EmailCodesController < ApplicationController
       )
 
       UserMailer.verification_code_email(user).deliver_now
-
       redirect_to verify_code_path(email: email)
     else
       flash[:alert] = "Please enter a valid email."
@@ -30,7 +26,7 @@ class EmailCodesController < ApplicationController
 
   def verify
     @user = User.find_by(email: params[:email])
-  
+
     if request.post?
       if @user&.verify_code_matches?(params[:code])
         sign_in(@user)
@@ -41,5 +37,10 @@ class EmailCodesController < ApplicationController
         render :verify, status: :unprocessable_entity
       end
     end
+  end
+
+  def destroy
+    sign_out current_user
+    redirect_to unauthenticated_root_path, notice: "Signed out successfully."
   end
 end

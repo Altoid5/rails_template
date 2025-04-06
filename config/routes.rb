@@ -5,11 +5,15 @@ Rails.application.routes.draw do
   get "up" => "rails/health#show", as: :rails_health_check
   get "/map", to: "map#index"
   get "/guest_login", to: "sessions#guest"
-  # Devise
+
+  # Devise login override & manual logout
   devise_for :users, skip: [:sessions]
   as :user do
-    # Don't use Devise login — use custom email login
-    get "/users/sign_in" => redirect("/email_login")
+    # Redirect Devise login to custom login
+    get "/users/sign_in", to: redirect("/email_login")
+    
+    # Add Devise's logout manually
+    delete "/logout", to: "devise/sessions#destroy", as: :logout
   end
 
   # UTRGV Email Login Routes

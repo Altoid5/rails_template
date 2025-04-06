@@ -1,37 +1,66 @@
-<!DOCTYPE html>
-<html>
-  <head>
-    <title>Lost & Found @ UTRGV</title>
-    <%= csrf_meta_tags %>
-    <%= csp_meta_tag %>
-    <%= javascript_importmap_tags %>
+<body>
+  <%= javascript_importmap_tags %>
+  <%= javascript_include_tag "application", "data-turbo-track": "reload", defer: true %>
+  <%= stylesheet_link_tag "application", "data-turbo-track": "reload" %>
 
-    <%= stylesheet_link_tag "application", "data-turbo-track": "reload" %>
-    <%= javascript_include_tag "application", "data-turbo-track": "reload" %>
-    <%= javascript_include_tag "application", "data-turbo-track": "reload", defer: true %>
+  <!-- Profile Icon Dropdown -->
+  <% if user_signed_in? %>
+    <div style="position: absolute; top: 1rem; right: 1rem;">
+      <div style="position: relative; display: inline-block;">
+        <button onclick="toggleProfileMenu()" style="background: none; border: none; cursor: pointer;">
+          <!-- Temporary placeholder avatar -->
+          <img src="https://i.pravatar.cc/32" alt="Profile" style="width: 32px; height: 32px; border-radius: 50%;">
+        </button>
+        <div id="profile-dropdown" style="display: none; position: absolute; right: 0; background: white; border-radius: 6px; box-shadow: 0 2px 6px rgba(0,0,0,0.2); padding: 1rem; z-index: 1000;">
+          <p style="margin: 0 0 0.5rem 0;"><strong><%= current_user.email %></strong></p>
+          <%= link_to "My Profile", user_path(current_user), style: "display: block; margin-bottom: 0.5rem; color: #f57c00; text-decoration: none;" %>
+          <%= link_to "Edit Profile", edit_user_path(current_user), style: "display: block; margin-bottom: 0.5rem; color: #f57c00; text-decoration: none;" %>
+<%= link_to "Logout", logout_path,
+      method: :delete,
+      data: {
+        turbo_method: :delete,
+        turbo_confirm: "Are you sure you want to logout?"
+      },
+      style: "color: red;",
+      id: "logout-link" %>        </div>
+      </div>
+    </div>
+  <% end %>
 
-  </head>
-
-  <body>
-<% unless controller_name == "email_codes" && ["new", "verify"].include?(action_name) %>
-  <nav>
-    <%= link_to "Home", user_signed_in? ? authenticated_root_path : unauthenticated_root_path %> |
-    <%= link_to "Lost Items", lost_items_path %> |
-    <%= link_to "Found Items", found_items_path %> |
-    <%= link_to "Login", email_login_path %>
-    <%= link_to "Campus Map", map_path if user_signed_in? %>
-  </nav>
-  <hr>
-<% end %>
-
-<% if flash[:notice] %>
-  <p style="color: green;"><%= flash[:notice] %></p>
-<% elsif flash[:alert] %>
-  <p style="color: red;"><%= flash[:alert] %></p>
-<% end %>
-
+  <% unless controller_name == "email_codes" && ["new", "verify"].include?(action_name) %>
+    <nav style="background-color: #f57c00; padding: 1rem; display: flex; gap: 1rem;">
+      <%= link_to "Home", user_signed_in? ? authenticated_root_path : unauthenticated_root_path, style: "color: white; text-decoration: none;" %>
+      <%= link_to "Lost Items", lost_items_path, style: "color: white; text-decoration: none;" %>
+      <%= link_to "Found Items", found_items_path, style: "color: white; text-decoration: none;" %>
+      <%= link_to "Login", email_login_path, style: "color: white; text-decoration: none;" unless user_signed_in? %>
+      <%= link_to "Campus Map", map_path, style: "color: white; text-decoration: none;" if user_signed_in? %>
+    </nav>
     <hr>
+  <% end %>
 
-    <%= yield %>
-  </body>
-</html>
+  <% if flash[:notice] %>
+    <p style="color: green;"><%= flash[:notice] %></p>
+  <% elsif flash[:alert] %>
+    <p style="color: red;"><%= flash[:alert] %></p>
+  <% end %>
+
+  <hr>
+
+  <%= yield %>
+
+  <script>
+    function toggleProfileMenu() {
+      const menu = document.getElementById("profile-dropdown");
+      menu.style.display = menu.style.display === "block" ? "none" : "block";
+    }
+
+    // Close dropdown when clicking outside
+    document.addEventListener("click", function (event) {
+      const menu = document.getElementById("profile-dropdown");
+      const button = event.target.closest("button");
+      if (menu && !menu.contains(event.target) && !button) {
+        menu.style.display = "none";
+      }
+    });
+  </script>
+</body>

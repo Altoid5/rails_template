@@ -3,9 +3,7 @@ class UsersController < ApplicationController
 
   def show
     @user = User.find(params[:id])
-    @lost_items = @user.lost_items
-    @found_items = @user.found_items
-    @claims = @user.claims
+    @lost_item = LostItem.new
   end
 
   def edit

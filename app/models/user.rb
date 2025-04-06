@@ -7,6 +7,7 @@ class User < ApplicationRecord
   has_many :claims
   has_many :notifications
   has_many :reports
+  has_one_attached :profile_image
 
   # Only allow UTRGV emails
   validates :email, presence: true, uniqueness: true
