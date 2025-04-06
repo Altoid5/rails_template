@@ -1,6 +1,10 @@
 Rails.application.routes.draw do
+  get "map/index"
+  resources :posts
+  get 'latest', to: 'posts#latest'
   get "up" => "rails/health#show", as: :rails_health_check
-
+  get "/map", to: "map#index"
+  get "/guest_login", to: "sessions#guest"
   # Devise
   devise_for :users, skip: [:sessions]
   as :user do
@@ -26,6 +30,7 @@ Rails.application.routes.draw do
 
   # Main app resources
   resources :lost_items
+  resources :posts
   resources :found_items
   resources :claims, only: [:index, :create, :destroy]
   resources :users, only: [:show, :edit, :update, :destroy]

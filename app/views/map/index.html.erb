@@ -1,0 +1,23 @@
+<h1>Click a building to select its location</h1>
+
+<div style="position: relative; display: inline-block;">
+  <img src="<%= asset_path('utrgv-edinburg-map.pdf.png') %>" usemap="#utrmap" alt="UTRGV Campus Map" style="width: 100%; max-width: 1000px;">
+
+  <map name="utrmap">
+    <!-- Example building (ESWOT) -->
+    <area shape="rect" coords="90,430,140,460" href="#" alt="ESWOT" onclick="selectBuilding('ESWOT - Social Work and Occupational Therapy')">
+    
+    <!-- You can add more clickable <area> tags for other buildings here -->
+  </map>
+
+  <div id="selected-building" style="margin-top: 20px;"></div>
+</div>
+
+<script>
+  function selectBuilding(name) {
+    document.getElementById("selected-building").innerHTML = `
+      <p><strong>Selected Building:</strong> ${name}</p>
+      <a href="/lost_items/new?location=${encodeURIComponent(name)}" class="btn">Report Lost Item Here</a>
+    `;
+  }
+</script>

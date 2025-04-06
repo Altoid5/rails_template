@@ -1,0 +1,24 @@
+<div style="background-color: #4a464d; min-height: 100vh; padding-top: 3rem; font-family: Arial, sans-serif;">
+  <div style="height: 5px; background-color: #f57c00;"></div>
+
+  <div style="max-width: 600px; background-color: #f2f2f2; margin: 3rem auto; border-radius: 10px; padding: 2rem 2.5rem; box-shadow: 0 0 20px rgba(0,0,0,0.15);">
+    <h2 style="text-align: center; color: #222; margin-bottom: 1.5rem;"><%= @lost_item.name %></h2>
+
+    <p style="margin-bottom: 1rem;"><strong>Description:</strong> <%= @lost_item.description %></p>
+    <p style="margin-bottom: 1rem;"><strong>Category:</strong> <%= @lost_item.category %></p>
+    <p style="margin-bottom: 1rem;"><strong>Lost on:</strong> <%= @lost_item.lost_date.strftime("%B %d, %Y") %></p>
+    <p style="margin-bottom: 1.5rem;"><strong>Location:</strong> <%= @lost_item.location %></p>
+
+    <% if @lost_item.image.attached? %>
+      <div style="margin-bottom: 1.5rem;">
+        <p><strong>Image:</strong></p>
+<%= image_tag @lost_item.image, style: "max-width: 100%; border-radius: 6px;" %>
+      </div>
+    <% end %>
+
+    <div style="display: flex; justify-content: space-between;">
+      <%= link_to "Back", lost_items_path, class: "btn", style: "padding: 0.5rem 1rem; background-color: #ccc; color: black; border-radius: 5px; text-decoration: none; font-weight: bold;" %>
+      <%= link_to "Delete", lost_item_path(@lost_item), data: { turbo_method: :delete, turbo_confirm: "Are you sure?" }, class: "btn", style: "padding: 0.5rem 1rem; background-color: #f57c00; color: white; border-radius: 5px; text-decoration: none; font-weight: bold;" %>
+    </div>
+  </div>
+</div>

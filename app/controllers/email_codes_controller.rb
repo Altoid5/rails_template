@@ -30,15 +30,15 @@ class EmailCodesController < ApplicationController
 
   def verify
     @user = User.find_by(email: params[:email])
-
+  
     if request.post?
       if @user&.verify_code_matches?(params[:code])
         sign_in(@user)
         flash[:notice] = "Login successful!"
         redirect_to authenticated_root_path
       else
-        flash[:alert] = "Invalid or expired verification code."
-        render :verify
+        flash.now[:alert] = "Invalid or expired verification code."
+        render :verify, status: :unprocessable_entity
       end
     end
   end

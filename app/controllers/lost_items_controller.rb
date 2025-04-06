@@ -11,6 +11,7 @@ class LostItemsController < ApplicationController
 
   def new
     @lost_item = LostItem.new
+    @lost_item.location = params[:location] if params[:location].present?
   end
 
   def create
@@ -50,6 +51,6 @@ class LostItemsController < ApplicationController
   private
 
   def lost_item_params
-    params.require(:lost_item).permit(:name, :description, :location, :category)
-  end
+    params.require(:lost_item).permit(:name, :description, :location, :category, :lost_date, :image)
+  end  
 end

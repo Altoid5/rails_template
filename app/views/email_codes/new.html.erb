@@ -1,12 +1,33 @@
-<h1>Login with UTRGV Email</h1>
-
-<%= form_with url: "/email_login", method: :post, local: true do %>
-  <div>
-    <%= label_tag :email, "UTRGV Email:" %><br>
-    <%= email_field_tag :email, nil, required: true %>
+<!-- Page background and top bar -->
+<div style="background-color: #4a464d; min-height: 100vh; font-family: Arial, sans-serif;">
+  
+  <!-- Header with UTRGV-style and Lost & Found -->
+  <div style="background-color: #333; padding: 1rem 0; border-bottom: 5px solid #f57c00;">
+    <div style="text-align: center; color: white;">
+      <h1 style="margin: 0; font-size: 2.2rem;">
+        <span style="font-weight: lighter;">my</span><span style="color: #f57c00;">UT</span><span style="color: white;">RGV</span>
+      </h1>
+      <p style="font-size: 1.2rem; margin-top: 0.3rem; color: #f57c00; font-weight: bold;">
+        Lost & Found Portal
+      </p>
+    </div>
   </div>
 
-  <div style="margin-top: 1rem;">
-    <%= submit_tag "Send Verification Code" %>
+  <!-- Centered card -->
+  <div style="max-width: 480px; background-color: #f2f2f2; margin: 3rem auto; border-radius: 8px; padding: 2rem; box-shadow: 0 0 20px rgba(0,0,0,0.2);">
+    <h2 style="text-align: center; margin-bottom: 1.5rem; color: #333;">Sign in with your UTRGV Email</h2>
+
+    <%= form_with url: "/email_login", method: :post, local: true do %>
+      <div style="margin-bottom: 1.5rem;">
+        <%= label_tag :email, "UTRGV Email:", style: "display: block; margin-bottom: 0.5rem; font-weight: bold;" %>
+        <%= email_field_tag :email, nil, required: true, placeholder: "example@utrgv.edu", style: "width: 100%; padding: 0.75rem; border: 1px solid #ccc; border-radius: 5px;" %>
+      </div>
+
+      <%= submit_tag "Sign In", style: "width: 100%; padding: 0.75rem; background-color: #f57c00; color: white; font-weight: bold; border: none; border-radius: 5px; cursor: pointer;" %>
+    <% end %>
+
+    <div style="margin-top: 1rem; text-align: center;">
+      <%= link_to "Login as Guest", guest_login_path, style: "display: inline-block; margin-top: 1rem; font-weight: bold; color: #f57c00; text-decoration: none;" %>
+    </div>
   </div>
-<% end %>
+</div>
