@@ -1,0 +1,13 @@
+<% if user_signed_in? %>
+  <% unless current_user == @found_item.user %>
+    <div style="margin-top: 1rem;">
+      <h4>Think this is yours?</h4>
+      <%= form_with url: claims_path, method: :post, local: true do |f| %>
+        <%= hidden_field_tag :found_item_id, @found_item.id %>
+        <label>Secret Question:</label><br>
+        <%= text_field_tag :answer, nil, placeholder: "Answer to secret question", style: "width: 100%; padding: 0.5rem; border-radius: 5px;" %><br><br>
+        <%= f.submit "Claim", style: "background-color: #f57c00; color: white; padding: 0.5rem 1rem; border-radius: 5px;" %>
+      <% end %>
+    </div>
+  <% end %>
+<% end %>

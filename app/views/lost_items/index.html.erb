@@ -13,15 +13,20 @@
     <% @lost_items.each do |item| %>
       <div style="border: none; padding: 1.5rem; border-radius: 10px; background-color: white; box-shadow: 0 0 10px rgba(0,0,0,0.1); position: relative;">
 
-        <!-- Profile Section -->
-        <div style="display: flex; align-items: center; gap: 0.5rem; border-bottom: 1px solid #ddd; padding-bottom: 0.75rem; margin-bottom: 1rem;">
-          <% if item.user && item.user.profile_image.attached? %>
-            <%= image_tag url_for(item.user.profile_image), alt: "#{item.user.email}'s profile picture", style: "width: 40px; height: 40px; border-radius: 50%;" %>
-          <% else %>
-            <%= image_tag "https://i.pravatar.cc/40", alt: "Default avatar", style: "width: 40px; height: 40px; border-radius: 50%;" %>
-          <% end %>
-          <p style="margin: 0; font-size: 0.9rem; color: #333;"><%= item.user.email if item.user %></p>
-        </div>
+<!-- Profile Section -->
+<div style="display: flex; align-items: center; gap: 0.5rem; border-bottom: 1px solid #ddd; padding-bottom: 0.75rem; margin-bottom: 1rem;">
+<% if item.user %>
+  <% if item.user.profile_image.attached? %>
+    <%= image_tag url_for(item.user.profile_image), alt: "#{item.user.email}'s profile picture", style: "width: 40px; height: 40px; border-radius: 50%;" %>
+  <% else %>
+<% if item.user&.profile_image&.attached? %>
+  <%= image_tag url_for(item.user.profile_image), alt: "#{item.user.email}'s profile picture", style: "width: 40px; height: 40px; border-radius: 50%;" %>
+<% else %>
+  <%= image_tag("https://i.pravatar.cc/40", alt: "Default avatar", style: "width: 40px; height: 40px; border-radius: 50%;") %>
+<% end %>  <% end %>
+<% end %>
+  <p style="margin: 0; font-size: 0.9rem; color: #333;"><%= item.user.email if item.user %></p>
+</div>
 
         <% if item.image.attached? %>
           <div style="margin-bottom: 1rem; text-align: center;">
@@ -43,7 +48,7 @@
         <% end %>
 
         <% building_coords = {
-          "1. ESWOT" => [1060, 442],
+          "1. ESWOT" => [1010, 420],
           "2. EITTB" => [1045, 373],
           "3. ECOXT" => [970, 405],
           "4. ETRAK" => [954, 376],

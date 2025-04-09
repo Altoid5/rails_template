@@ -1,0 +1,56 @@
+<!-- Page Container -->
+<div style="background-color: #f4f4f4; min-height: 100vh; padding: 2rem; font-family: Arial, sans-serif;">
+  <h1 style="text-align: center; font-size: 2rem; color: #333; margin-bottom: 2rem;">Found Items</h1>
+
+  <% if user_signed_in? %>
+    <div style="text-align: center; margin-bottom: 2rem;">
+      <%= link_to "Add Found Item", new_found_item_path, class: "btn", style: "background-color: #f57c00; color: white; padding: 0.75rem 1.5rem; border-radius: 5px; font-weight: bold; text-decoration: none;" %>
+    </div>
+  <% end %>
+
+  <!-- Grid of Found Items -->
+  <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 2rem;">
+    <% @found_items.each do |item| %>
+      <div style="border: none; padding: 1.5rem; border-radius: 10px; background-color: white; box-shadow: 0 0 10px rgba(0,0,0,0.1); position: relative;">
+
+        <!-- Profile -->
+        <div style="display: flex; align-items: center; gap: 0.5rem; border-bottom: 1px solid #ddd; padding-bottom: 0.75rem; margin-bottom: 1rem;">
+          <% if item.user&.profile_image&.attached? && item.user.profile_image.content_type.starts_with?('image/') %>
+            <%= image_tag url_for(item.user.profile_image), alt: "#{item.user.email}'s profile picture", style: "width: 40px; height: 40px; border-radius: 50%;" %>
+          <% else %>
+            <%= image_tag "https://i.pravatar.cc/40", alt: "Default avatar", style: "width: 40px; height: 40px; border-radius: 50%;" %>
+          <% end %>
+          <p style="margin: 0; font-size: 0.9rem; color: #333;"><%= item.user.email if item.user %></p>
+        </div>
+
+        <!-- Image -->
+        <% if item.image.attached? && item.image.content_type.starts_with?('image/') %>
+          <div style="margin-bottom: 1rem; text-align: center;">
+            <%= image_tag item.image, style: "max-width: 100%; border-radius: 8px;" %>
+          </div>
+        <% end %>
+
+        <h3 style="color: #f57c00; font-size: 1.25rem; margin-bottom: 0.5rem;"><%= item.name %></h3>
+        <p style="margin: 0.25rem 0;"><strong>Description:</strong> <%= item.description %></p>
+        <p style="margin: 0.25rem 0;"><strong>Category:</strong> <%= item.category %></p>
+        <p style="margin: 0.25rem 0;"><strong>Found on:</strong> <%= item.found_date.strftime("%B %d, %Y") if item.found_date %></p>
+        <p style="margin: 0.25rem 0;"><strong>Location:</strong> <%= item.location || "Unknown" %></p>
+
+        <!-- Claim Button -->
+       <% if user_signed_in? && item.user != current_user %>
+  <div style="margin-top: 1rem;">
+    <%= link_to "Claim", new_claim_path(found_item_id: item.id), class: "btn", style: "background-color: #388e3c; color: white; padding: 0.5rem 1rem; border-radius: 5px; text-decoration: none;" %>
+  </div>
+<% end %>
+
+        <!-- Edit/Delete Buttons for Owner -->
+        <% if user_signed_in? && item.user == current_user %>
+          <div style="margin-top: 1rem;">
+            <%= link_to "Edit", edit_found_item_path(item), class: "btn", style: "margin-right: 0.5rem; color: white; background-color: #4a90e2; padding: 0.5rem 1rem; border-radius: 4px; text-decoration: none; font-weight: bold;" %>
+            <%= link_to "Delete", item, method: :delete, data: { confirm: "Are you sure?" }, class: "btn", style: "color: white; background-color: #e53935; padding: 0.5rem 1rem; border-radius: 4px; text-decoration: none; font-weight: bold;" %>
+          </div>
+        <% end %>
+      </div>
+    <% end %>
+  </div>
+</div>

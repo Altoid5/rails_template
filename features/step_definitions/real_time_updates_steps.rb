@@ -1,3 +1,4 @@
+# Viewing Lost and Found List
 Given("I am viewing the lost and found page") do
   visit lost_and_found_path
 end
@@ -11,6 +12,7 @@ Then("I should see the new lost item appear without refreshing") do
   expect(page).to have_content("Laptop")
 end
 
+# Claimed item disappears
 Given("I am viewing the found items list") do
   visit found_items_path
 end
@@ -25,6 +27,7 @@ Then("the claimed item should disappear from my screen without refreshing") do
   expect(page).not_to have_content("Wallet")
 end
 
+# Notification match
 Given("I have reported a lost item") do
   @my_lost_item = LostItem.create(name: "Backpack", location: "Gym", description: "Black Nike backpack", reported_by: "me@utrgv.edu")
 end
@@ -43,6 +46,7 @@ Then("I should receive a real-time notification") do
   expect(Notification.last.message).to include("A matching item has been found!")
 end
 
+# Viewer indicator
 Given("I am viewing a lost item page") do
   visit lost_item_path(@my_lost_item)
 end

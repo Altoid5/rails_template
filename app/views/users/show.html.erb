@@ -1,8 +1,17 @@
 <div style="background-color: #4a464d; min-height: 100vh; padding-top: 3rem; font-family: Arial, sans-serif;">
   <div style="height: 5px; background-color: #f57c00;"></div>
 
-
   <div style="max-width: 600px; background-color: #f2f2f2; margin: 3rem auto; border-radius: 10px; padding: 2rem 2.5rem; box-shadow: 0 0 20px rgba(0,0,0,0.15);">
+
+<% if @user.profile_image.attached? %>
+  <% if @user.profile_image.content_type.starts_with?('image/') %>
+    <div style="margin-top: 1rem;">
+      <%= image_tag @user.profile_image.variant(resize_to_limit: [100, 100]), style: "border-radius: 50%;" %>
+    </div>
+  <% else %>
+    <p style="color: red;">Uploaded file is not an image.</p>
+  <% end %>
+<% end %>
     <h2 style="text-align: center; color: #222; margin-bottom: 1.5rem;">Lost Item Form</h2>
 
 <%= form_with(model: @lost_item, local: true, html: { multipart: true }) do |form| %>

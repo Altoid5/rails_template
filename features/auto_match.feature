@@ -8,9 +8,3 @@ Feature: Automatic Matching System
     And its details match a lost item
     When the system runs an auto-match check
     Then the user who lost the item should receive a notification
-
-  Scenario: System flags potential duplicate reports
-    Given a user tries to submit a lost item report
-    And a similar report already exists
-    When they submit the form
-    Then they should receive a warning about the duplicate

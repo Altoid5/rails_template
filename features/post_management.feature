@@ -4,7 +4,7 @@ Feature: Managing Lost and Found Posts
   So that I can manage my lost and found items
 
   Scenario: Editing a lost item post
-    Given I am logged in
+Given I am logged in to manage my posts
     And I am viewing my lost item post
     When I click the edit button
     And I update the details

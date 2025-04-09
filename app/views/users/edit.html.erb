@@ -5,10 +5,27 @@
     <%= form.label :email %><br>
     <%= form.text_field :email %>
   </div>
+
   <div>
     <%= form.label :name %><br>
     <%= form.text_field :name %>
   </div>
+
+  <div class="field">
+    <label>Profile Picture</label><br>
+    <%= form.file_field :profile_image %>
+
+    <% if @user.profile_image.attached? %>
+      <% if @user.profile_image.content_type.starts_with?('image/') %>
+        <div style="margin-top: 1rem;">
+          <%= image_tag @user.profile_image.variant(resize_to_limit: [100, 100]), style: "border-radius: 50%;" %>
+        </div>
+      <% else %>
+        <p style="color: red;">Uploaded file is not an image.</p>
+      <% end %>
+    <% end %>
+  </div>
+
   <div>
     <%= form.submit "Update" %>
   </div>

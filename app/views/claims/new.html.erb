@@ -1,0 +1,14 @@
+<h2>Submit Claim</h2>
+
+<%= form_with url: claims_path, method: :post do |form| %>
+  <%= hidden_field_tag :found_item_id, params[:found_item_id] %>
+
+  <div style="margin-bottom: 1rem;">
+    <%= label_tag :answer, "Why does this item belong to you?" %><br>
+    <%= text_field_tag :answer, nil, style: "width: 100%; padding: 0.5rem;" %>
+  </div>
+
+  <div>
+    <%= submit_tag "Submit Claim", class: "btn", style: "background-color: #388e3c; color: white; padding: 0.5rem 1rem;" %>
+  </div>
+<% end %>

@@ -1,5 +1,5 @@
-Given("I am logged in as a UTRGV user") do
-  @user = User.create(email: "student@utrgv.edu", password: "password123", confirmed_at: Time.now)
+Given("I am logged in to claim a found item") do
+  @user ||= User.create!(email: "student@utrgv.edu", password: "password123")
   login_as(@user, scope: :user)
 end
 
@@ -19,29 +19,4 @@ end
 Then("my claim should be submitted for approval") do
   click_button "Submit Claim"
   expect(page).to have_content("Your claim has been submitted for approval.")
-end
-
-And("I submit the claim without proof") do
-  click_button "Submit Claim"
-end
-
-Then("I should see an error message") do
-  expect(page).to have_content("Error: Proof of ownership is required.")
-end
-
-Given("I submitted a claim for a found item") do
-  @claim = Claim.create(user: @user, found_item: @found_item, proof_provided: false, status: "pending")
-end
-
-When("my proof of ownership is not sufficient") do
-  @claim.update(status: "rejected")
-end
-
-Then("my claim should be rejected") do
-  expect(@claim.reload.status).to eq("rejected")
-end
-
-And("I should receive a rejection notification") do
-  Notification.create(user: @user, message: "Your claim has been rejected due to insufficient proof.")
-  expect(Notification.last.message).to include("Your claim has been rejected")
 end

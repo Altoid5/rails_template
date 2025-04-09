@@ -4,7 +4,7 @@ Rails.application.routes.draw do
   get 'latest', to: 'posts#latest'
   get "up" => "rails/health#show", as: :rails_health_check
   get "/map", to: "map#index"
-  get "/guest_login", to: "sessions#guest"
+  get '/guest_login', to: 'sessions#guest'
 
   # Devise login override & manual logout
   devise_for :users, skip: [:sessions]
@@ -36,8 +36,9 @@ Rails.application.routes.draw do
   resources :lost_items
   resources :posts
   resources :found_items
-  resources :claims, only: [:index, :create, :destroy]
+  resources :claims, only: [:index, :new, :create, :destroy]
   resources :users, only: [:show, :edit, :update, :destroy]
   resources :reports, only: [:index, :create, :destroy]
   resources :notifications, only: [:index, :destroy]
+  resources :claims, only: [:new, :create]
 end

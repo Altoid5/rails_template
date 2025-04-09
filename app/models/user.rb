@@ -26,8 +26,17 @@ class User < ApplicationRecord
 
 
 
+  has_one_attached :profile_image
 
-
+  validate :profile_image_must_be_image
+  
+  def profile_image_must_be_image
+    return unless profile_image.attached?
+    unless profile_image.content_type.in?(%w[image/png image/jpeg image/jpg image/webp])
+      errors.add(:profile_image, "must be a valid image format (PNG, JPG, JPEG, or WEBP)")
+      profile_image.purge # Optional: deletes it immediately
+    end
+  end
   
   # Skip password validation for UTRGV code login
   def password_required?

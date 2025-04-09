@@ -1,6 +1,6 @@
 Feature: Searching and Filtering Items
-  As a UTRGV student, faculty, or staff
-  I want to search and filter lost and found items
+  As a UTRGV student, faculty, or staff  
+  I want to search and filter lost and found items  
   So that I can find my lost item quickly
 
   Scenario: Searching for a lost item by keyword

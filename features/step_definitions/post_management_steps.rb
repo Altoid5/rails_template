@@ -1,15 +1,15 @@
-Given("I am logged in") do
-  @user = User.create(email: "student@utrgv.edu", password: "password123", confirmed_at: Time.now)
+Given("I am logged in to manage my posts") do
+  @user ||= User.create!(email: "student@utrgv.edu", password: "password123")
   login_as(@user, scope: :user)
 end
 
 And("I am viewing my lost item post") do
   @lost_item = LostItem.create(name: "Laptop", location: "Library", description: "Silver MacBook", user: @user)
-  visit edit_lost_item_path(@lost_item)
+  visit lost_item_path(@lost_item)
 end
 
 When("I click the edit button") do
-  click_button "Edit"
+  click_link_or_button "Edit"
 end
 
 And("I update the details") do

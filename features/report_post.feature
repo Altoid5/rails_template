@@ -1,6 +1,6 @@
 Feature: Reporting Suspicious Posts
-  As a UTRGV user
-  I want to report false or suspicious lost and found posts
+  As a UTRGV user  
+  I want to report false or suspicious lost and found posts  
   So that the website remains trustworthy
 
   Scenario: Reporting a false lost item post

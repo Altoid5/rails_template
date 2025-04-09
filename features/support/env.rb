@@ -53,3 +53,15 @@ end
 Cucumber::Rails::Database.javascript_strategy = :truncation
 # Allows factories to run in cucumber tests
 World(FactoryBot::Syntax::Methods)
+
+require 'devise'
+
+World(Warden::Test::Helpers)
+
+Before do
+  Warden.test_mode!
+end
+
+After do
+  Warden.test_reset!
+end

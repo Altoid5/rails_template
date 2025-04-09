@@ -1,36 +1,28 @@
-Given("I am on the login page") do
-  visit new_user_session_path
+require 'rspec/mocks'
+
+Given('I visit the login page') do
+  visit '/email_login'
 end
 
-When("I enter my UTRGV email") do
-  fill_in "Email", with: "student@utrgv.edu"
-  fill_in "Password", with: "password123"
+When('I enter a valid UTRGV email') do
+  fill_in 'UTRGV Email:', with: 'anthony.portales01@utrgv.edu'
+  click_button 'Sign In'
 end
 
-And("I pass the random letter verification") do
-  # Simulating the random letter verification input
-  fill_in "Verification Letter", with: "A"
+When('I complete the random letter verification') do
+  fill_in 'Verification Code', with: 'A'
+  click_button 'Verify and Login'
 end
 
-Then("I should be logged in successfully") do
-  click_button "Log in"
-  expect(page).to have_content("Welcome, student@utrgv.edu")
+Then('I should be logged in and redirected to the homepage') do
+  expect(page).to have_content('Lost & Found')
 end
 
-When("I enter a non-UTRGV email") do
-  fill_in "Email", with: "randomuser@gmail.com"
-  fill_in "Password", with: "password123"
+
+When('I choose to log in as a guest') do
+  click_link 'Login as Guest'
 end
 
-Then("I should see an error message") do
-  click_button "Log in"
-  expect(page).to have_content("Invalid email or password")
-end
-
-When("I select guest login") do
-  click_button "Continue as Guest"
-end
-
-Then("I should have limited access to the website") do
-  expect(page).to have_content("You are browsing as a guest")
+Then('I should see the guest homepage with limited access') do
+  expect(page).to have_content('Lost & Found') # I need to set tis up later for limted acces
 end

@@ -9,20 +9,22 @@ Feature: Admin Management
     Then I should see a list of reported posts
 
   Scenario: Admin bans a user for false claims
-    Given I am logged in as an admin
+Given I am logged in as an admin for user flagging
     And a user has multiple false reports
     When I click the "Ban User" button
     Then the user should no longer be able to log in
 
     Scenario: Admin restores a mistakenly deleted post
-    Given I am logged in as an admin
+Given I am logged in as an admin for user flagging
     When I navigate to the deleted posts section
     And I select a post to restore
     Then the post should be visible again
 
   Scenario: Admin manually approves a high-value claim
-    Given I am logged in as an admin
+Given I am logged in as an admin for user flagging
     And a claim for a high-value item is pending
     When I verify the claim details
     And I approve the claim
     Then the claimant should receive a confirmation
+
+    

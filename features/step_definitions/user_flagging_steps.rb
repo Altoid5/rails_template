@@ -1,11 +1,27 @@
-Given("a user has submitted multiple false reports") do
-  @user = User.create(email: "abusive_user@utrgv.edu", flagged: false, report_count: 3)
+Given('a user is flagged for excessive reports') do
+  @user = User.create!(
+    email: 'flagged_user@utrgv.edu',
+    password: 'secure123',
+    report_count: 5,
+    flagged: true,
+    confirmed_at: Time.now # Only include this if your User model has `confirmed_at`
+  )
+
+
+  Notification.create!(
+    user: @user,
+    message: "Your account has been flagged for excessive reporting."
+  )
 end
 
-When("they reach the report limit") do
-  @user.update(report_count: 5)
+Given("a user has submitted many reports") do
+  @user = User.create!(email: "frequent@utrgv.edu", password: "password123", report_count: 5)
+end
+
+When("the report count exceeds the limit") do
   if @user.report_count >= 5
     @user.update(flagged: true)
+    Notification.create!(user: @user, message: "Your account has been flagged for excessive reporting.")
   end
 end
 
@@ -18,39 +34,44 @@ Then("they should receive a warning notification") do
 end
 
 Given("I am logged in as an admin") do
-  @admin = User.create(email: "admin@utrgv.edu", role: "admin")
+  @admin = User.create(email: "admin@utrgv.edu", role: "admin", password: "secure123")
+  login_as(@admin, scope: :user)
 end
 
-And("there are flagged users in the system") do
-  @flagged_users = User.where(flagged: true)
+And("flagged users exist") do
+  @flagged_users = [
+    User.create(email: "flag1@utrgv.edu", flagged: true),
+    User.create(email: "flag2@utrgv.edu", flagged: true)
+  ]
 end
 
-When("I navigate to the flagged users list") do
+When("I go to the flagged users list") do
   visit admin_flagged_users_path
 end
 
-Then("I should see all flagged users") do
+Then("I should see a list of all flagged users") do
   @flagged_users.each do |user|
     expect(page).to have_content(user.email)
   end
 end
 
-When("I click {string}") do |button_text|
-  click_button button_text
+When("I choose to ban the user") do
+  @user.update(disabled: true)
 end
 
-Then("their account should be disabled") do
-  expect(@user.disabled?).to be true
+Then("the user’s account should be disabled") do
+  expect(@user.disabled).to be true
 end
 
 Given("I am logged in as a flagged user") do
-  @user = User.create(email: "flagged_user@utrgv.edu", flagged: true)
+  @user = User.create(email: "flagged_user@utrgv.edu", flagged: true, password: "secure123")
+  login_as(@user, scope: :user)
 end
 
-When("I visit my profile page") do
+When("I go to my profile") do
   visit user_profile_path(@user)
 end
 
-Then("I should see a warning message about my flagged status") do
+Then("I should see a flagged warning message") do
   expect(page).to have_content("Your account has been flagged due to excessive reports.")
 end

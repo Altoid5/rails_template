@@ -8,21 +8,26 @@
     <div style="position: absolute; top: 1rem; right: 1rem;">
       <div style="position: relative; display: inline-block;">
         <button onclick="toggleProfileMenu()" style="background: none; border: none; cursor: pointer;">
-          <!-- Temporary placeholder avatar -->
-          <img src="https://i.pravatar.cc/32" alt="Profile" style="width: 32px; height: 32px; border-radius: 50%;">
+          <% if current_user.profile_image.attached? %>
+            <%= image_tag url_for(current_user.profile_image), alt: "Profile", style: "width: 32px; height: 32px; border-radius: 50%;" %>
+          <% else %>
+            <%= image_tag "https://i.pravatar.cc/32?u=#{current_user.id}", alt: "Default avatar", style: "width: 32px; height: 32px; border-radius: 50%;" %>
+          <% end %>
         </button>
+
         <div id="profile-dropdown" style="display: none; position: absolute; right: 0; background: white; border-radius: 6px; box-shadow: 0 2px 6px rgba(0,0,0,0.2); padding: 1rem; z-index: 1000;">
           <p style="margin: 0 0 0.5rem 0;"><strong><%= current_user.email %></strong></p>
           <%= link_to "My Profile", user_path(current_user), style: "display: block; margin-bottom: 0.5rem; color: #f57c00; text-decoration: none;" %>
           <%= link_to "Edit Profile", edit_user_path(current_user), style: "display: block; margin-bottom: 0.5rem; color: #f57c00; text-decoration: none;" %>
-<%= link_to "Logout", logout_path,
-      method: :delete,
-      data: {
-        turbo_method: :delete,
-        turbo_confirm: "Are you sure you want to logout?"
-      },
-      style: "color: red;",
-      id: "logout-link" %>        </div>
+          <%= link_to "Logout", logout_path,
+              method: :delete,
+              data: {
+                turbo_method: :delete,
+                turbo_confirm: "Are you sure you want to logout?"
+              },
+              style: "color: red;",
+              id: "logout-link" %>
+        </div>
       </div>
     </div>
   <% end %>

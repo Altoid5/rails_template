@@ -14,7 +14,12 @@ class ClaimsController < ApplicationController
       return
     end
 
-    @claim = @found_item.claims.build(user: current_user, proof_provided: true, status: "pending")
+    @claim = @found_item.claims.build(
+      user: current_user,
+      answer: params[:answer],
+      proof_provided: true, # or false if not using it
+      status: "pending"
+    )
 
     if @claim.save
       redirect_to found_items_path, notice: "Claim submitted for review!"

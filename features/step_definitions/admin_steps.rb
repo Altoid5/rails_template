@@ -1,4 +1,4 @@
-Given("I am logged in as an admin") do
+Given(/^I am logged in as an admin for user flagging$/) do
   @admin = User.create(email: "admin@utrgv.edu", password: "adminpass", role: "admin", confirmed_at: Time.now)
   login_as(@admin, scope: :user)
 end
