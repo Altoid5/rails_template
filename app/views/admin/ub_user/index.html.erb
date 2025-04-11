@@ -1,0 +1,15 @@
+<% @users.each do |user| %>
+  <div class="card mb-3">
+    <div class="card-body d-flex justify-content-between align-items-center">
+      <div>
+        <strong><%= user.email %></strong><br>
+        <small class="text-muted">Joined on: <%= user.created_at.strftime("%B %d, %Y") %></small>
+      </div>
+      <% if user.disabled? %>
+<%= link_to "Unban", unban_admin_user_path(user), method: :patch, class: "btn btn-sm btn-success" %>
+      <% else %>
+        <%= link_to "Ban", ban_admin_user_path(user), method: :patch, class: "btn btn-sm btn-warning" %>
+      <% end %>
+    </div>
+  </div>
+<% end

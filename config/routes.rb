@@ -1,6 +1,24 @@
 Rails.application.routes.draw do
+  namespace :admin do
+    # This creates the paths for ban and unban actions in the users controller
+    resources :users, only: [:index] do
+      patch :ban, on: :member   # Path for banning a user
+      patch :unban, on: :member # Path for unbanning a user
+    end
+
+    get 'dashboard', to: 'dashboard#index', as: 'dashboard'
+    resources :reports, only: [:index, :destroy]
+    resources :claims, only: [:index, :show, :update]
+
+    resources :claims, only: [] do
+      member do
+        patch :approve
+        patch :reject
+      end
+    end
+  end
+
   get "map/index"
-  resources :posts
   get 'latest', to: 'posts#latest'
   get "up" => "rails/health#show", as: :rails_health_check
   get "/map", to: "map#index"
@@ -9,10 +27,7 @@ Rails.application.routes.draw do
   # Devise login override & manual logout
   devise_for :users, skip: [:sessions]
   as :user do
-    # Redirect Devise login to custom login
     get "/users/sign_in", to: redirect("/email_login")
-    
-    # Add Devise's logout manually
     delete "/logout", to: "devise/sessions#destroy", as: :logout
   end
 
@@ -36,9 +51,11 @@ Rails.application.routes.draw do
   resources :lost_items
   resources :posts
   resources :found_items
-  resources :claims, only: [:index, :new, :create, :destroy]
+  resources :claims, only: [:new, :create, :destroy]
   resources :users, only: [:show, :edit, :update, :destroy]
   resources :reports, only: [:index, :create, :destroy]
   resources :notifications, only: [:index, :destroy]
-  resources :claims, only: [:new, :create]
+
+  # Route for banned page
+  get 'errors/banned', to: 'errors#banned', as: :banned
 end

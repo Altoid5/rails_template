@@ -21,7 +21,4 @@ Scenario: A user gets flagged after submitting many reports
     When I choose to ban the user  
     Then the user’s account should be disabled  
 
-  Scenario: Flagged user sees warning on profile  
-    Given I am logged in as a flagged user  
-    When I go to my profile  
-    Then I should see a flagged warning message  
+

@@ -1,0 +1,8 @@
+<h2>Deleted Posts</h2>
+
+<% (@deleted_lost_items + @deleted_found_items).each do |post| %>
+  <div>
+    <strong><%= post.name %></strong> — <%= post.description %>
+    <%= button_to "Restore", admin_post_restore_path(post), method: :patch %>
+  </div>
+<% end %>

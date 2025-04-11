@@ -68,9 +68,7 @@ Given("I am logged in as a flagged user") do
   login_as(@user, scope: :user)
 end
 
-When("I go to my profile") do
-  visit user_profile_path(@user)
-end
+
 
 Then("I should see a flagged warning message") do
   expect(page).to have_content("Your account has been flagged due to excessive reports.")

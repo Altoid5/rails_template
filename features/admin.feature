@@ -3,10 +3,11 @@ Feature: Admin Management
   I want to monitor and manage lost and found posts
   So that I can maintain the integrity of the platform
 
-    Scenario: Admin views reported posts
-    Given I am logged in as an admin
-    When I navigate to the admin dashboard
-    Then I should see a list of reported posts
+Scenario: Admin views reported posts
+  Given I am logged in as an admin
+  And a report exists
+  When I navigate to the admin dashboard
+  Then I should see a list of reported posts
 
   Scenario: Admin bans a user for false claims
 Given I am logged in as an admin for user flagging

@@ -1,0 +1,109 @@
+
+<div class="container my-5">
+  <h1 class="mb-4 border-bottom pb-2 text-warning">Admin Dashboard</h1>
+
+  <!-- Reported Lost Items -->
+  <section class="mb-5">
+    <h2 class="h5 mb-3">📦 Reported Lost Items</h2>
+    <div class="row g-3">
+      <% @reported_lost_items.each do |item| %>
+        <div class="col-md-6">
+          <div class="card h-100">
+            <div class="card-body">
+              <h5 class="card-title"><%= item.name %></h5>
+              <p class="card-text"><%= item.description %></p>
+              <p class="card-text text-muted small">Reported by: <%= item.user.email %></p>
+            </div>
+          </div>
+        </div>
+      <% end %>
+    </div>
+  </section>
+
+  <!-- Reported Found Items -->
+  <section class="mb-5">
+    <h2 class="h5 mb-3">🧳 Reported Found Items</h2>
+    <div class="row g-3">
+      <% @reported_found_items.each do |item| %>
+        <div class="col-md-6">
+          <div class="card h-100">
+            <div class="card-body">
+              <h5 class="card-title"><%= item.name %></h5>
+              <p class="card-text"><%= item.description %></p>
+              <p class="card-text text-muted small">Reported by: <%= item.user.email %></p>
+            </div>
+          </div>
+        </div>
+      <% end %>
+    </div>
+  </section>
+
+<!-- Pending Claims Section -->
+<section class="mb-5">
+  <h2 class="h5 mb-3">📝 Pending Claims</h2>
+  <% @pending_claims.each do |claim| %>
+    <div class="card mb-3">
+      <div class="card-body d-flex justify-content-between align-items-center">
+        <div>
+          <h6 class="mb-1"><%= claim.found_item.name %></h6>
+          <p class="mb-0 text-muted small">Claimed by: <%= claim.user.email %></p>
+          <!-- Display the description of the claim -->
+          <p class="mt-2"><strong>Description:</strong> <%= claim.description %></p>
+        </div>
+        <div class="d-flex gap-2">
+          <%= form_with url: approve_admin_claim_path(claim), method: :patch, class: "d-inline" do %>
+            <%= button_tag "Approve", class: "btn btn-sm btn-success" %>
+          <% end %>
+          <%= form_with url: reject_admin_claim_path(claim), method: :patch, class: "d-inline" do %>
+            <%= button_tag "Reject", class: "btn btn-sm btn-danger" %>
+          <% end %>
+        </div>
+      </div>
+    </div>
+  <% end %>
+</section>
+<!-- Ban Users -->
+<section class="mb-5">
+  <h2 class="h5 mb-3">🚫 Ban Users from Reported Posts</h2>
+  <% combined_items = (@reported_lost_items + @reported_found_items).uniq { |item| item.user_id } %>
+  <% combined_items.each do |item| %>
+    <% if item.user.present? && !item.user.disabled? %>
+      <div class="card mb-3">
+        <div class="card-body d-flex justify-content-between align-items-center">
+          <div>
+            <strong><%= item.name %></strong> — <%= item.description %><br>
+            <small class="text-muted">Reported by: <%= item.user.email %></small>
+          </div>
+          
+          <%= form_with url: ban_admin_user_path(item.user), method: :patch, class: "d-inline" do %>
+            <%= button_tag "Ban User", class: "btn btn-sm btn-warning text-white" %>
+          <% end %>
+        </div>
+      </div>
+    <% end %>
+  <% end %>
+</section>
+
+<!-- Banned Users -->
+<section class="mb-5">
+  <h2 class="h5 mb-3">🚫 Banned Users</h2>
+  <% if @banned_users.present? %>  <!-- Ensure @banned_users is present -->
+    <% @banned_users.each do |user| %>
+      <div class="card mb-3">
+        <div class="card-body d-flex justify-content-between align-items-center">
+          <div>
+            <strong><%= user.email %></strong><br>
+            <small class="text-muted">Banned on: <%= user.updated_at.strftime("%B %d, %Y") %></small>
+          </div>
+          
+          <%= form_with url: unban_admin_user_path(user), method: :patch, class: "d-inline" do %>
+            <%= button_tag "Unban User", class: "btn btn-sm btn-success text-white" %>
+          <% end %>
+          
+        </div>
+      </div>
+    <% end %>
+  <% else %>
+    <p>No banned users found.</p>  <!-- Display message if no banned users -->
+  <% end %>
+</section>

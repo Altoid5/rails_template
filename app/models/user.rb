@@ -25,7 +25,14 @@ class User < ApplicationRecord
   # end
 
 
-
+  def active_for_authentication?
+    super && !disabled?
+  end
+  
+  def inactive_message
+    disabled? ? :locked : super
+  end
+  
   has_one_attached :profile_image
 
   validate :profile_image_must_be_image

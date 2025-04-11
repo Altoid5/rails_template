@@ -1,12 +1,18 @@
 class LostItemsController < ApplicationController
-  before_action :authenticate_user!, only: [ :new, :create, :edit, :update, :destroy ]
+  before_action :authenticate_user!, only: [:new, :create, :edit, :update, :destroy]
+  before_action :check_user_disabled, only: [:new, :create]
 
   def index
-    @lost_items = LostItem.all
+    @lost_items = LostItem
+      .includes(:user)
+      .where(deleted: false)
+      .where(users: { disabled: [false, nil] })  # Only show items from non-disabled users
+      .references(:users)
   end
 
   def show
     @lost_item = LostItem.find(params[:id])
+    redirect_to lost_items_path, alert: "This post is no longer available." if @lost_item.deleted || @lost_item.user.disabled?
   end
 
   def new
@@ -26,7 +32,7 @@ class LostItemsController < ApplicationController
 
   def edit
     @lost_item = LostItem.find(params[:id])
-    redirect_to lost_items_path, alert: "Not authorized" unless @lost_item.user == current_user
+    redirect_to lost_items_path, alert: "Not authorized" unless @lost_item.user == current_user || @lost_item.user.disabled?
   end
 
   def update
@@ -41,7 +47,7 @@ class LostItemsController < ApplicationController
   def destroy
     @lost_item = LostItem.find(params[:id])
     if @lost_item.user == current_user
-      @lost_item.destroy
+      @lost_item.update(deleted: true)  # Instead of destroying, mark as deleted
       redirect_to lost_items_path, notice: "Lost item removed!"
     else
       redirect_to lost_items_path, alert: "Not authorized"
@@ -53,4 +59,10 @@ class LostItemsController < ApplicationController
   def lost_item_params
     params.require(:lost_item).permit(:name, :description, :location, :category, :lost_date, :image)
   end  
+
+  def check_user_disabled
+    if current_user.disabled?
+      redirect_to root_path, alert: "Your account has been disabled."
+    end
+  end
 end

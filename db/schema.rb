@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_04_07_031352) do
+ActiveRecord::Schema[8.0].define(version: 2025_04_10_040344) do
   create_table "active_storage_attachments", force: :cascade do |t|
     t.string "name", null: false
     t.string "record_type", null: false
@@ -47,6 +47,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_04_07_031352) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "answer"
+    t.text "description"
     t.index ["found_item_id"], name: "index_claims_on_found_item_id"
     t.index ["user_id"], name: "index_claims_on_user_id"
   end
@@ -63,6 +64,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_04_07_031352) do
     t.datetime "updated_at", null: false
     t.date "found_date"
     t.string "image"
+    t.boolean "deleted", default: false
     t.index ["user_id"], name: "index_found_items_on_user_id"
   end
 
@@ -76,6 +78,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_04_07_031352) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.date "lost_date"
+    t.boolean "deleted", default: false
     t.index ["user_id"], name: "index_lost_items_on_user_id"
   end
 
@@ -120,6 +123,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_04_07_031352) do
     t.string "verification_code"
     t.datetime "code_sent_at"
     t.string "name"
+    t.boolean "disabled"
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
 

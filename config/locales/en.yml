@@ -29,3 +29,8 @@
 
 en:
   hello: "Hello world"
+
+  en:
+  devise:
+    failure:
+      locked: "Your account has been disabled."

@@ -48,7 +48,10 @@
   <% elsif flash[:alert] %>
     <p style="color: red;"><%= flash[:alert] %></p>
   <% end %>
-
+  
+<% if user_signed_in? && current_user.role == "admin" %>
+  <%= link_to "Admin Dashboard", admin_dashboard_path, class: "btn btn-warning" %>
+<% end %>
   <hr>
 
   <%= yield %>

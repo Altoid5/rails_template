@@ -1,0 +1,11 @@
+<h1>Flagged Reports</h1>
+
+<% @reports.each do |report| %>
+  <div style="border: 1px solid #ccc; padding: 1rem; margin-bottom: 1rem;">
+    <p><strong>Reason:</strong> <%= report.reason %></p>
+    <p><strong>Reported By:</strong> <%= report.user.email %></p>
+    <p><strong>Post Type:</strong> <%= report.post_type %></p>
+    <p><strong>Post ID:</strong> <%= report.post_id %></p>
+    <%= link_to "Delete Report", admin_report_path(report), method: :delete, data: { confirm: "Are you sure?" }, class: "btn btn-danger" %>
+  </div>
+<% end %>

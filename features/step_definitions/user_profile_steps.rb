@@ -1,44 +1,30 @@
 Given("I am logged in") do
-  @user = User.create!(email: "student@utrgv.edu", password: "password123")
+  @user = User.create!(email: "user1@utrgv.edu", password: "password123", role: "user")
   login_as(@user, scope: :user)
-end
-
-When("I navigate to my profile page") do
-  visit user_path(@user) # or user_profile_path(@user) if you have a custom route
-end
-
-And("I update my contact details") do
-  fill_in "Phone Number", with: "555-1234"
-  click_button "Save Changes"
-end
-
-Then("my changes should be saved") do
-  expect(page).to have_content("Profile updated successfully")
-  expect(@user.reload.phone_number).to eq("555-1234")
 end
 
 When("I go to my profile") do
   visit user_path(@user)
 end
 
-Then("I should see a list of my previous lost and found reports") do
-  LostItem.create!(name: "Backpack", location: "Gym", description: "Black Nike backpack", reported_by: @user.email)
-  FoundItem.create!(name: "Wallet", location: "Cafeteria", description: "Brown leather wallet", found_by: @user.email)
-
-  visit user_path(@user)
-  expect(page).to have_content("Backpack")
-  expect(page).to have_content("Wallet")
+When("I go to the edit profile page") do
+  visit edit_user_path(User.first)
 end
 
-When("I choose to deactivate my account") do
-  click_button "Deactivate Account"
+And("I update my contact info") do
+  fill_in "Email", with: "updated_user@utrgv.edu"
+  fill_in "Name", with: "Updated Name"
+  click_button "Update"
+end
+Then("I should see a success message") do
+  expect(page).to have_content("Profile updated successfully!")
 end
 
-And("I confirm the action") do
-  click_button "Confirm Deactivation"
+When("I click the logout button") do
+  find("#logout-link", visible: :all).click
 end
 
-Then("my account should be deactivated") do
-  expect(@user.reload.deactivated).to be true
-  expect(page).to have_content("Your account has been deactivated")
+Then("I should be signed out and redirected to the login page") do
+  expect(page).to have_current_path(email_login_path)
+  expect(page).to have_content("Login")
 end

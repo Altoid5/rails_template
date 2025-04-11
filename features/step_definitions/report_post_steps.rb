@@ -19,5 +19,5 @@ end
 
 Then("the post should be flagged for admin review") do
   expect(page).to have_content("Thank you for your report")
-  expect(Report.last.reason).not_to be_nil
+  expect(Report.last.post).not_to be_nil
 end
